@@ -5,10 +5,10 @@ import 'package:restaurant_app/screens/signup/test.dart';
 void main() {
   runApp(MaterialApp(
     title: 'temp navigation root',
-    home: FirstRoute(),
+    home: MyApp(),
   ));
 }
-class FirstRoute extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
