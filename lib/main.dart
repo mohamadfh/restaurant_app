@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => loginForm()),
+                    MaterialPageRoute(builder: (context) => loginPage()),
                   );
                 },
               ),ElevatedButton(
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => signupForm()),
+                      MaterialPageRoute(builder: (context) => signupPage()),
                   );
                   },
               ),ElevatedButton(

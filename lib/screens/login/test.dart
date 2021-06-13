@@ -1,60 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/login/components/txtField.dart';
-import 'package:restaurant_app/screens/login/components/passField.dart';
 import 'package:restaurant_app/main.dart';
-
-class loginForm extends StatelessWidget {
+import 'package:restaurant_app/screens/signup/test.dart';
+class loginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              color: Colors.white24,
-            ),
-            Body()
-          ],
-        )
-      );
-  }
-}
-
-
-
-class Body extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-      return SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 100),
-            Text(
-              "#login_page",
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,color:Colors.green),
-            ),
-            SizedBox(height: 100),
-            txt_field(
-              label: "phone number",
-              hint: "Enter Phone number",
-              icon: Icons.phone,
-            ),
-            SizedBox(height: 30),
-            pass_field(),
-            SizedBox(height: 40),
-            TextButton(
-              onPressed: (){
-              return;
-              },
-              child: Text("LOGIN",
-                  style: TextStyle(fontWeight: FontWeight.bold,color:Colors.green),
-              ),
-            )
-          ],
+    final appTitle = 'login';
+    return MaterialApp(
+      title: appTitle,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(appTitle),
         ),
-      );
+        body: RegisterForm(),
+      ),
+    );
   }
 }
 
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({Key key}) : super(key: key);
 
+  @override
+  _RegisterFormState createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String phoneNumber;
+  String pass;
+  bool obscurePass = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextFormField(
+                  decoration: const InputDecoration(
+                      labelText: 'phone number',
+                      hintText: 'Enter phone number',
+                      icon: Icon(Icons.phone)),
+                  onSaved: (value) {
+                    phoneNumber = value;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  obscureText: obscurePass,
+                  decoration: InputDecoration(
+                    labelText: 'password',
+                    hintText: 'Enter password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                          obscurePass ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          obscurePass = !obscurePass;
+                        });
+                      },
+                    ),
+                    icon: Icon(Icons.lock),
+                  ),
+                  onSaved: (value) {
+                    pass = value;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: <Widget>[
+                    const Spacer(),
+                    OutlineButton(
+                      onPressed: _submit,
+                      child: const Text('login'),
+                    ),
+                    const Spacer()
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    const Spacer(),
+                    Text("havent registered yet?"),
+                    TextButton(   onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => signupPage()),
+                      );
+                    }, child: Text("sign up")),
+                    Spacer()
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+  void _submit() {
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+      print('Form submitted');
+
+    }
+  }
+}
