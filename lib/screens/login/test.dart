@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/main.dart';
-import 'package:restaurant_app/screens/signup/test.dart';
+import 'package:flutter_restaurant_app/Screens/HomePage.dart';
+import 'package:flutter_restaurant_app/Screens/signup/test.dart';
+
 class loginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,75 +35,79 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextFormField(
+              decoration: const InputDecoration(
+                  labelText: 'phone number',
+                  hintText: 'Enter phone number',
+                  icon: Icon(Icons.phone)),
+              onSaved: (value) {
+                phoneNumber = value;
+              },
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
+              obscureText: obscurePass,
+              decoration: InputDecoration(
+                labelText: 'password',
+                hintText: 'Enter password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      obscurePass ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      obscurePass = !obscurePass;
+                    });
+                  },
+                ),
+                icon: Icon(Icons.lock),
+              ),
+              onSaved: (value) {
+                pass = value;
+              },
+            ),
+            const SizedBox(height: 16.0),
+            Row(
               children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(
-                      labelText: 'phone number',
-                      hintText: 'Enter phone number',
-                      icon: Icon(Icons.phone)),
-                  onSaved: (value) {
-                    phoneNumber = value;
-                  },
+                const Spacer(),
+                OutlineButton(
+                  onPressed: _submit,
+                  child: const Text('login'),
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  obscureText: obscurePass,
-                  decoration: InputDecoration(
-                    labelText: 'password',
-                    hintText: 'Enter password',
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                          obscurePass ? Icons.visibility : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          obscurePass = !obscurePass;
-                        });
-                      },
-                    ),
-                    icon: Icon(Icons.lock),
-                  ),
-                  onSaved: (value) {
-                    pass = value;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: <Widget>[
-                    const Spacer(),
-                    OutlineButton(
-                      onPressed: _submit,
-                      child: const Text('login'),
-                    ),
-                    const Spacer()
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    const Spacer(),
-                    Text("havent registered yet?"),
-                    TextButton(   onPressed: () {
+                const Spacer()
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                const Spacer(),
+                Text("havent registered yet?"),
+                TextButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => signupPage()),
                       );
-                    }, child: Text("sign up")),
-                    Spacer()
-                  ],
-                ),
+                    },
+                    child: Text("sign up")),
+                Spacer()
               ],
             ),
-          ),
-        ));
+          ],
+        ),
+      ),
+    ));
   }
+
   void _submit() {
-    if(_formKey.currentState.validate()){
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print('Form submitted');
-
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
 }
