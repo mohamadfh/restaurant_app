@@ -95,6 +95,14 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      body: Center(
+          child: Expanded(
+        child: Text(
+          'Welcome ' + '(name of the restaurant which has logged)',
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
+      )),
     );
   }
 }

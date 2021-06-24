@@ -5,8 +5,9 @@ import 'package:flutter_restaurant_app/Screens/signup/test.dart';
 class loginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'login';
+    final appTitle = 'Login';
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: appTitle,
       home: Scaffold(
         appBar: AppBar(

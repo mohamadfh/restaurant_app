@@ -46,8 +46,7 @@ class CommentsState extends State<Comments> {
         TextField(
           controller: textController,
           onSubmitted: (String submitStr) {
-            setMessage(submitStr);
-            //_addComments(submitStr);
+            setMessage(textController.text);
           },
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(30.0),
@@ -65,8 +64,10 @@ class CommentsState extends State<Comments> {
                     color: Colors.yellow,
                   ),
                   onPressed: () {
-                    _addComments(message);
-                    textController.clear();
+                    setState(() {
+                      _addComments(message);
+                      textController.clear();
+                    });
                   })),
         ),
       ]),

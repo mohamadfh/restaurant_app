@@ -5,8 +5,9 @@ import 'package:flutter_restaurant_app/screens/login/test.dart';
 class signupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'create new account';
+    final appTitle = 'Creating new account';
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: appTitle,
       home: Scaffold(
         appBar: AppBar(
@@ -163,8 +164,13 @@ class _RegisterFormState extends State<RegisterForm> {
             Row(
               children: <Widget>[
                 const Spacer(),
-                OutlineButton(
-                  onPressed: _submit,
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => loginPage()),
+                    );
+                  },
                   child: const Text('Register'),
                 ),
                 const Spacer()
