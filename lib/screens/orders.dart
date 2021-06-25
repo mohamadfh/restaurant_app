@@ -12,28 +12,48 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('My orders'),
-        backgroundColor: Colors.purple,
-        actions: <Widget>[
-          new IconButton(
-              icon: Icon(Icons.backspace_outlined),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-        ],
-      ),
-      body: InkWell(
-        onTap: () {},
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: <Widget>[
-            Image.asset('assets/food1.jpg'),
-            Text('hamburger'),
+        appBar: AppBar(
+          title: Text('My orders'),
+          backgroundColor: Colors.purple,
+          actions: <Widget>[
+            new IconButton(
+                icon: Icon(Icons.backspace_outlined),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
           ],
         ),
-      ),
-      backgroundColor: Colors.indigoAccent,
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {},
+                child: Card(
+                  color: Colors.green[100],
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image.asset(
+                          'assets/food1.jpg',
+                          width: 200,
+                          height: 130,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 30),
+                          child: Text(
+                            'First order',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ]),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
