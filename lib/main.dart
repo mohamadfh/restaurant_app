@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_restaurant_app/notifiers/CommentNotifier.dart';
 import 'package:flutter_restaurant_app/notifiers/FoodNotifier.dart';
 import 'package:flutter_restaurant_app/Screens/FirstHomePage.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => FoodNotifier()),
+        ChangeNotifierProvider(create: (context) => CommentNotifier()),
       ],
       child: MyApp(),
     ),

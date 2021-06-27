@@ -82,11 +82,8 @@ class _AddProductState extends State<AddProduct> {
                       child: Card(
                         child: Center(
                           child: Text('Food image'),
-
-                          // selecting an image and then changing product.image using
-                          // function Set_image(String image)
                         ),
-                      ), // here we have image of the food
+                      ),
                     ),
                   ),
                   TextFormField(
@@ -109,7 +106,6 @@ class _AddProductState extends State<AddProduct> {
                       price = double.parse(value);
                     },
                   ),
-
                   TextFormField(
                     decoration: InputDecoration(
                         labelText: 'Food Category*',
@@ -129,7 +125,6 @@ class _AddProductState extends State<AddProduct> {
                       category = value;
                     },
                   ),
-
                   SizedBox(
                     height: 30,
                   ),
@@ -150,9 +145,6 @@ class _AddProductState extends State<AddProduct> {
                                 MaterialPageRoute(
                                     builder: (context) => Products()));
                           })),
-
-                  // here should be a button to finish adding and then add product
-                  // to product List
                 ],
               ),
             ),

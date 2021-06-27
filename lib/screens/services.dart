@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_restaurant_app/Screens/CommentsManagement.dart';
 import 'package:flutter_restaurant_app/Screens/HomePage.dart';
 import 'package:flutter_restaurant_app/Screens/Products.dart';
+import 'package:flutter_restaurant_app/Screens/orders.dart';
 
 class Services extends StatefulWidget {
   const Services({Key key}) : super(key: key);
@@ -15,8 +17,25 @@ class _ServicesState extends State<Services> {
     return Scaffold(
       backgroundColor: Colors.yellow[100],
       appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              }),
+        ],
         backgroundColor: Colors.red,
-        title: Text('Services'),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 80.0),
+          child: Text(
+            'Services',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+        ),
       ),
       body: ListView(children: [
         Padding(
@@ -36,7 +55,13 @@ class _ServicesState extends State<Services> {
                 height: 30,
               ),
               InkWell(
-                onTap: () {}, // go to managing comments page
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CommentsManagement(),
+                      ));
+                },
                 child: Card(
                   color: Colors.green[100],
                   child: Row(
@@ -100,7 +125,13 @@ class _ServicesState extends State<Services> {
                 height: 30,
               ),
               InkWell(
-                onTap: () {}, // go to logs page
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Orders(),
+                      ));
+                },
                 child: Card(
                   color: Colors.green[100],
                   child: Row(

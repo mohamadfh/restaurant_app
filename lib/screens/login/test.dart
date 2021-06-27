@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_restaurant_app/Screens/HomePage.dart';
 import 'package:flutter_restaurant_app/Screens/signup/test.dart';
+import 'package:flutter_restaurant_app/models/Constants.dart';
+//import 'package:flutter_restaurant_app/models/RestaurantOwner.dart';
 
 class loginPage extends StatelessWidget {
   @override
@@ -20,7 +24,8 @@ class loginPage extends StatelessWidget {
 }
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({Key key}) : super(key: key);
+  final Socket socket;
+  const RegisterForm({Key key, @required this.socket}) : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -28,6 +33,10 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController t1 = new TextEditingController();
+  TextEditingController t2 = new TextEditingController();
+  String serverMsg;
+  Constants constants;
   String phoneNumber;
   String pass;
   bool obscurePass = true;
@@ -42,6 +51,7 @@ class _RegisterFormState extends State<RegisterForm> {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              controller: t1,
               decoration: const InputDecoration(
                   labelText: 'phone number',
                   hintText: 'Enter phone number',
@@ -52,6 +62,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              controller: t2,
               obscureText: obscurePass,
               decoration: InputDecoration(
                 labelText: 'password',
@@ -85,7 +96,7 @@ class _RegisterFormState extends State<RegisterForm> {
             Row(
               children: <Widget>[
                 const Spacer(),
-                Text("havent registered yet?"),
+                Text("haven\'t registered yet?"),
                 TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -97,18 +108,48 @@ class _RegisterFormState extends State<RegisterForm> {
                 Spacer()
               ],
             ),
+            /*SizedBox(
+              height: 20,
+            ),
+            Text(
+              serverMsg,
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+                fontSize: 10,
+              ),
+            )*/
           ],
         ),
       ),
     ));
   }
 
-  void _submit() {
+  void _submit() /*async*/ {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      /*if (t1.text.isNotEmpty && t2.text.isNotEmpty) {
+        await Socket.connect(constants.ip, constants.port).then((serverSocket) {
+          print('connected');
+          serverSocket.writeln("LoginRes");
+          serverSocket.flush();
+          serverSocket.writeln(t1.text);
+          serverSocket.flush();
+          serverSocket.writeln(t2.text);
+          serverSocket.flush();
+          serverSocket.listen((socket) {
+            serverMsg = String.fromCharCodes(socket).trim();
+            setState(() {});
+          });
+        });
+      }
+      if (serverMsg.contains("ok")) {*/
       print('Form submitted');
+      //RestaurantOwner restaurantOwner;
+      //restaurantOwner.setPhonePass(t1.text, t2.text);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
+  //}
 }

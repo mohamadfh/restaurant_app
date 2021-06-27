@@ -71,8 +71,6 @@ class Products extends StatelessWidget {
                     );
                   }),
             ),
-
-      // images with details to be added from assets and be changed...
     );
   }
 }

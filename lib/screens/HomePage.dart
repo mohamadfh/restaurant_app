@@ -16,7 +16,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
-        title: Text('ResApp'),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 60.0),
+          child: Text('RestaurantApp'),
+        ),
         actions: <Widget>[
           new IconButton(
               icon: Icon(Icons.shopping_cart),
@@ -31,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             // Header... //
             new UserAccountsDrawerHeader(
-              accountName: Text('Hello'), // name of restaurant
+              accountName: Text('User'), // name of restaurant
               accountEmail: Text('Hello@gmail.com'), // g-mail of restaurant
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
@@ -47,14 +50,6 @@ class _HomePageState extends State<HomePage> {
               child: ListTile(
                 title: Text('Home Page'),
                 leading: Icon(Icons.home, color: Colors.red),
-              ),
-            ),
-
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                title: Text('Dashboard'),
-                leading: Icon(Icons.dashboard, color: Colors.red),
               ),
             ),
 
@@ -90,6 +85,17 @@ class _HomePageState extends State<HomePage> {
               child: ListTile(
                 title: Text('Products'),
                 leading: Icon(Icons.restaurant_rounded, color: Colors.blue),
+              ),
+            ),
+            Divider(
+              height: 40,
+            ),
+
+            InkWell(
+              onTap: () {},
+              child: ListTile(
+                title: Text('Log Out'),
+                leading: Icon(Icons.logout, color: Colors.red),
               ),
             ),
           ],
