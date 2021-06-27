@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant_app/Screens/HomePage.dart';
 import 'package:flutter_restaurant_app/models/Comment_item.dart';
 import 'package:flutter_restaurant_app/models/Comments.dart';
+import 'package:flutter_restaurant_app/models/RestaurantOwner.dart';
 import 'package:flutter_restaurant_app/notifiers/CommentNotifier.dart';
 import 'package:provider/provider.dart';
 
 class CommentsManagement extends StatelessWidget {
-  const CommentsManagement({Key key}) : super(key: key);
+  RestaurantOwner restaurantOwner;
+  CommentsManagement({this.restaurantOwner});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,11 @@ class CommentsManagement extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => HomePage()));
               }),
+          IconButton(
+              icon: Icon(Icons.get_app),
+              onPressed: () {
+                commentNotifier.getComments(restaurantOwner);
+              }),
         ],
         title: Text(
           'Customer\'s Comments',
@@ -31,7 +38,8 @@ class CommentsManagement extends StatelessWidget {
         ),
         backgroundColor: Colors.red,
       ),
-      body: commentNotifier.commentList.length == 0
+      body: (commentNotifier.commentList.length == 0 ||
+              commentNotifier.commentList == null)
           ? Center(
               child: Text(
                 'No Comments yet!',

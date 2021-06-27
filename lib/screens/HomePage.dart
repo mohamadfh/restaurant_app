@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_restaurant_app/Screens/FirstHomePage.dart';
 import 'package:flutter_restaurant_app/Screens/Products.dart';
 import 'package:flutter_restaurant_app/Screens/orders.dart';
 import 'package:flutter_restaurant_app/Screens/services.dart';
+import 'package:flutter_restaurant_app/models/RestaurantOwner.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  RestaurantOwner restaurantOwner;
+  HomePage({this.restaurantOwner});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -34,7 +37,12 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             // Header... //
             new UserAccountsDrawerHeader(
-              accountName: Text('User'), // name of restaurant
+              accountName: Text(
+                'User' + widget.restaurantOwner.phoneNumber,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ), // name of restaurant
               accountEmail: Text('Hello@gmail.com'), // g-mail of restaurant
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
@@ -92,7 +100,10 @@ class _HomePageState extends State<HomePage> {
             ),
 
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FirstHomePage()));
+              },
               child: ListTile(
                 title: Text('Log Out'),
                 leading: Icon(Icons.logout, color: Colors.red),
@@ -104,7 +115,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
           child: Expanded(
         child: Text(
-          'Welcome ' + '(name of the restaurant which has logged)',
+          'Welcome ' + 'to your App \n Use Left menu to go forward',
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
         ),

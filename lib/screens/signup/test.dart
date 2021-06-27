@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_restaurant_app/Screens/HomePage.dart';
+import 'package:flutter_restaurant_app/models/Constants.dart';
 import 'package:flutter_restaurant_app/screens/login/test.dart';
 
 class signupPage extends StatelessWidget {
@@ -36,6 +39,15 @@ class _RegisterFormState extends State<RegisterForm> {
   String category;
   bool obscurePass = true;
 
+  TextEditingController t1 = new TextEditingController();
+  TextEditingController t2 = new TextEditingController();
+  TextEditingController t3 = new TextEditingController();
+  TextEditingController t4 = new TextEditingController();
+  TextEditingController t5 = new TextEditingController();
+
+  String serverMsg = '';
+  Constants constants;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,6 +58,7 @@ class _RegisterFormState extends State<RegisterForm> {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              controller: t1,
               decoration: const InputDecoration(
                   labelText: 'name',
                   hintText: 'Enter name',
@@ -68,6 +81,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              controller: t2,
               decoration: const InputDecoration(
                   labelText: 'phone number',
                   hintText: 'Enter phone number',
@@ -90,6 +104,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              controller: t3,
               decoration: const InputDecoration(
                   labelText: 'categories',
                   hintText: 'Enter categories',
@@ -106,6 +121,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              controller: t4,
               decoration: const InputDecoration(
                   labelText: 'address',
                   hintText: 'Enter address',
@@ -128,6 +144,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              controller: t5,
               obscureText: obscurePass,
               decoration: InputDecoration(
                 labelText: 'password',
@@ -156,7 +173,6 @@ class _RegisterFormState extends State<RegisterForm> {
               onChanged: (value) {
                 setState(() {
                   _formKey.currentState.validate();
-                  //disable or enable submit
                 });
               },
             ),
@@ -166,10 +182,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => loginPage()),
-                    );
+                    _submit();
                   },
                   child: const Text('Register'),
                 ),
@@ -188,7 +201,18 @@ class _RegisterFormState extends State<RegisterForm> {
                       );
                     },
                     child: Text("login")),
-                Spacer()
+                Spacer(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  serverMsg,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                )
               ],
             ),
           ],
@@ -197,10 +221,36 @@ class _RegisterFormState extends State<RegisterForm> {
     ));
   }
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print('Form submitted');
+      if (t1.text.isNotEmpty && t2.text.isNotEmpty) {
+        await Socket.connect(constants.ip, constants.port).then((serverSocket) {
+          print('connected');
+          serverSocket.writeln("SignupRestaurant" +
+              "," +
+              t1.text +
+              "," +
+              t2.text +
+              "," +
+              t3.text +
+              "," +
+              t4.text +
+              "," +
+              t5.text);
+          serverSocket.flush();
+          serverSocket.listen((socket) {
+            serverMsg = String.fromCharCodes(socket).trim();
+            setState(() {});
+          });
+        });
+      }
+      if (serverMsg.contains("ok")) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => loginPage()));
+      } else {
+        _submit();
+      }
     }
   }
 }

@@ -1,11 +1,15 @@
 class Order_item {
-  String _title;
   String _user;
-  int _amount;
+  String _date;
+  String _address;
+  String _foods;
+  double _price;
 
-  String get title => _title;
+  String get date => _date;
   String get user => _user;
-  int get amount => _amount;
+  String get foods => _foods;
+  String get address => _address;
+  double get price => _price;
 
-  Order_item(this._title, this._user, this._amount);
+  Order_item(this._user, this._date, this._address, this._foods, this._price);
 }

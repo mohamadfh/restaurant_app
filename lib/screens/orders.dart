@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_restaurant_app/Screens/HomePage.dart';
+import 'package:flutter_restaurant_app/models/Order_item.dart';
+import 'package:flutter_restaurant_app/models/RestaurantOwner.dart';
+import 'package:flutter_restaurant_app/notifiers/OrdersNotifier.dart';
+import 'package:provider/provider.dart';
 
 class Orders extends StatefulWidget {
-  const Orders({Key key}) : super(key: key);
+  RestaurantOwner restaurantOwner;
+  Orders({this.restaurantOwner});
 
   @override
   _OrdersState createState() => _OrdersState();
@@ -11,49 +17,73 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
+    OrdersNotifier ordersNotifier = Provider.of<OrdersNotifier>(context);
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('My orders'),
-          backgroundColor: Colors.purple,
-          actions: <Widget>[
-            new IconButton(
-                icon: Icon(Icons.backspace_outlined),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.home),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 }),
+            IconButton(
+                icon: Icon(Icons.get_app),
+                onPressed: () {
+                  ordersNotifier.getList(widget.restaurantOwner);
+                })
           ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {},
-                child: Card(
-                  color: Colors.green[100],
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          'assets/food1.jpg',
-                          width: 200,
-                          height: 130,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30),
-                          child: Text(
-                            'First order',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ]),
-                ),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 86.0),
+            child: Text(
+              'Orders',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
               ),
-            ],
+            ),
           ),
-        ));
+          backgroundColor: Colors.red,
+        ),
+        body: (ordersNotifier.orderList.length == 0 ||
+                ordersNotifier.orderList == null)
+            ? Center(
+                child: Text(
+                  'No Orders!\nCheck with download icon',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+              )
+            : Container(
+                child: ListView.builder(
+                    itemCount: ordersNotifier.orderList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        color: Colors.green[300],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset('assets/food1.jpg'),
+                            Text(ordersNotifier.orderList[index].price
+                                .toString()),
+                            Text(ordersNotifier.orderList[index].date),
+                            Text(ordersNotifier.orderList[index].address),
+                            Text(ordersNotifier.orderList[index].foods),
+                            Text(
+                              ordersNotifier.orderList[index].user,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+              ));
   }
 }
